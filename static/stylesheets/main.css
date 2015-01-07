@@ -1,0 +1,65 @@
+html, body {
+	height: 100%;
+	background-color: #ffffff;
+	font-size: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+div#map-canvas {
+	position: relative;
+	left: 340px;
+	top: 0px; 
+	width: 50%;
+	height: 50%;
+	background-color: #ffffff;
+	font-size: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+canvas#main-canvas {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: #333333;
+}
+
+div#debug {
+	position: absolute;
+	background-color: #000000;
+	font-size: 12px;
+	z-index: 100;
+	left: 0px;
+	top: 0px;
+	width: 320px;
+	color: #00ff00;
+	opacity: 0.5;
+}
+div#gps {
+	position: absolute;
+	background-color: #000000;
+	z-index: 80;
+	left: 0px;
+	top: 0px;
+	width: auto;
+	color: #00ff00;
+	opacity: 0.2;
+	font-size: 12px;
+}
+
+div#dial-div {
+	position: absolute;
+	background-color: #333333;;
+	z-index: 101;
+	left: 930px;
+	top: 36px;
+	color: white;
+}
+
+div#main {
+	position: absolute;
+	top: 100px;
+	left: 586px;
+	z-index: 0;
+}

@@ -94,6 +94,8 @@ App.prototype.initGPS = function(data, self) {
 	self.lat = data.coords.latitude;
 	this.map = new Map();
 	this.map.init(data.coords);
+	//width: 50%;
+	//height: 50%;
 	this.map.init();
 };
 

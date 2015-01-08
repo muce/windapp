@@ -1,5 +1,5 @@
 var Map = function() {
-	this.coords = {lat:-33.87, lng:151.21};
+	this.coords = {lat:11, lng:150};
 	this.zoom = 12;
 	this.options = {
 		center: this.coords, 

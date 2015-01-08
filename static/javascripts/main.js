@@ -12,15 +12,15 @@ const TEST_ID_LOCATION = {
 };
 
 const TEST_ID = TEST_ID_LOCATION.margate;
-const TEST_LONG = 1.39;
-const TEST_LAT = 51.39;
+const TEST_LONG = 151.21;
+const TEST_LAT = -33.87;
 
 //const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?q="+TEST_LOCATIONS[TEST_LOCATION]+",uk";
 const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?id="+TEST_ID;
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyAAIjBYnsLq4pxsRkTOAdGV3C9aNzeGJf8";
 
-const REFRESH_RATE = 5000; // milliseconds
+const REFRESH_RATE = 10000; // milliseconds
 
 const SCREEN_RESOLUTIONS = {
 	"iphone3": {"width": 320, "height":480}, 
@@ -135,6 +135,7 @@ function dragDebug(e) {
 };
 
 function run() {
+	//alert("main.run "+TEST_URL);
 	timerID = window.setTimeout(run, REFRESH_RATE);
 	JSONLoader.load(TEST_URL, 'json');
 };

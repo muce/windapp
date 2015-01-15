@@ -163,6 +163,10 @@ App.prototype.print = function() {
 	out += "CLOUD: "+type.clouds.all+"%"+br;
 	out += "TEMPERATURE: "+this.temperature+br;
 	
+	out += "GPS: "+this.gps.getCoords()+br;
+	
+	//out += "WEATHER DATA PRINT: "+this.weather_data.print()+br;
+	
 	/*
 	for (var i in type) {
 		switch (i) {

@@ -6,18 +6,20 @@ const TEST_LOCATIONS = [
 	"Plymouth", "Doha", "New York"
 ];
 
+const TEST_COORDS = {
+	"london": [ -0.13, 51.51 ], 
+	"margate": [ 1.38617, 51.381321 ], 
+	"saint-malo": [ -2.01667, 48.650002 ]
+};
+
 const TEST_ID_LOCATION = {
 	"margate": 2643044, 
 	"sydney": 2147714, 
-	"saint-malo": 2978640
+	"saint-malo": 2978640, 
+	"london": 2643743
 };
 
-const TEST_ID = TEST_ID_LOCATION["saint-malo"];
-const TEST_LONG = 151.21;
-const TEST_LAT = -33.87;
-
-//const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139";
-const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?id="+TEST_ID;
+const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat="+TEST_COORDS["saint-malo"][1]+"&lon="+TEST_COORDS["saint-malo"][0];
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyAAIjBYnsLq4pxsRkTOAdGV3C9aNzeGJf8";
 

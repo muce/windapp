@@ -14,30 +14,32 @@ var WeatherData = function() {
 };
 
 WeatherData.prototype.init = function() {
-	alert("WeatherData.init");
+	//alert("WeatherData.init");
 };
 
 WeatherData.prototype.update = function(data) {
 	//alert("WeatherData.update data:"+data);
 	this.data = data;
+	//this.data.longitude = data.longitude; 
+	//this.data.latitude = data.latitude;
 };
 
-WeatherData.prototype.print = function(data) {
-	this.data = data;
+WeatherData.prototype.print = function() {
 	var type = this.data;
 	var br = "<br/>";
 	var nb = "&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;";
 	var out = "<b>DEBUG</b>"+br;
-	out += "ITERATION: "+this.iteration+br;
-	//var type = this.default_types;
-	out += "LOCATION: "+type.name+br;
+	/*
 	out += "CURRENT DATE: "+this.printDate(new Date())+br;
 	var station_date = new Date(this.convertDateTime(type.dt));
 	out += "STATION DATE: "+this.printDate(station_date)+br;
 	var latest = new Date()-station_date;
 	out += "LATEST UPDATE: "+Math.floor((latest/60000))+" minutes"+br;
 	out += "TEMPERATURE CHANGE: "+this.temperature_change+br;
-	
+	*/
+	out += "LONGITUDE: "+this.latitude+br;
+	out += "LATITUDE: "+this.longitude+br;
+	/*
 	for (var i in type) {
 		switch (i) {
 			case "wind":
@@ -114,10 +116,9 @@ WeatherData.prototype.print = function(data) {
 		}
 		
 	}
+	*/
+	return out;
 	
-	this.debug = out;
-	if (this.SHOW_DEBUG)
-		this.divs["debug"].innerHTML = this.debug;
 };
 
 App.prototype.printDate = function(d) {

@@ -8,6 +8,7 @@ var Map = function() {
 };
 
 Map.prototype.init = function(coords) {
+	//alert(coords.latitude+", "+coords.longitude);
 	this.coords.lat = coords.latitude;
 	this.coords.lng = coords.longitude;
 	//alert("Map.init lat:"+this.coords.lat+", lng:"+this.coords.lng);

@@ -94,9 +94,6 @@ App.prototype.initGPS = function(data, self) {
 	self.lat = data.coords.latitude;
 	this.map = new Map();
 	this.map.init(data.coords);
-	//width: 50%;
-	//height: 50%;
-	this.map.init();
 };
 
 App.prototype.update = function(data, iteration) {
@@ -161,8 +158,12 @@ App.prototype.print = function() {
 	out += "STATION DATE: "+this.printDate(station_date)+br;
 	var latest = new Date()-station_date;
 	out += "LATEST UPDATE: "+Math.floor((latest/60000))+" minutes"+br;
-	out += "TEMPERATURE CHANGE: "+this.temperature_change+br;
+	out += "WIND SPEED: "+this.windspeed+br;
+	out += "WIND DIRECTION: "+this.winddeg+br;
+	out += "CLOUD: "+type.clouds.all+"%"+br;
+	out += "TEMPERATURE: "+this.temperature+br;
 	
+	/*
 	for (var i in type) {
 		switch (i) {
 			case "wind":
@@ -239,7 +240,7 @@ App.prototype.print = function() {
 		}
 		
 	}
-	
+	*/
 	this.debug = out;
 	if (this.SHOW_DEBUG)
 		this.divs["debug"].innerHTML = this.debug;

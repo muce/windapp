@@ -7,20 +7,21 @@ const TEST_LOCATIONS = [
 ];
 
 const TEST_ID_LOCATION = {
-	margate: 2643044, 
-	sydney: 2147714 
+	"margate": 2643044, 
+	"sydney": 2147714, 
+	"saint-malo": 2978640
 };
 
-const TEST_ID = TEST_ID_LOCATION.margate;
+const TEST_ID = TEST_ID_LOCATION["saint-malo"];
 const TEST_LONG = 151.21;
 const TEST_LAT = -33.87;
 
-//const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?q="+TEST_LOCATIONS[TEST_LOCATION]+",uk";
+//const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139";
 const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?id="+TEST_ID;
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyAAIjBYnsLq4pxsRkTOAdGV3C9aNzeGJf8";
 
-const REFRESH_RATE = 10000; // milliseconds
+const REFRESH_RATE = 5000; // milliseconds
 
 const SCREEN_RESOLUTIONS = {
 	"iphone3": {"width": 320, "height":480}, 
@@ -83,7 +84,7 @@ function init() {
 	initDivs();
 	
 	// init app
-	app = new App(divs, images, canvas, SCREEN_RESOLUTIONS["iPhone5"]);
+	app = new App(divs, images, canvas, screen_resolution);
 	app.init();
 	run();
 	

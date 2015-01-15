@@ -14,7 +14,7 @@ var WeatherData = function() {
 };
 
 WeatherData.prototype.init = function() {
-	//alert("WeatherData.init");
+	alert("WeatherData.init");
 };
 
 WeatherData.prototype.update = function(data) {

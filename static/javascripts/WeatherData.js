@@ -1,7 +1,7 @@
 var WeatherData = function() {
 	this.data = {};
-	this.longitude = 1.39; 
-	this.latitude = 51.39;
+	this.longitude = TEST_COORDS["london"][1];
+	this.latitude = TEST_COORDS["london"][0];
 	this.windspeed = 0;
 	this.winddeg = 0;
 	this.windgust = 0;

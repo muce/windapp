@@ -4,7 +4,7 @@ var Map = function() {
 		"margate": [ 1.38617, 51.381321 ], 
 		"saint-malo": [ -2.01667, 48.650002 ]
 	};
-	this.coords = {lng:this.TEST_COORDS["saint-malo"][0], lat:this.TEST_COORDS["saint-malo"][1]};
+	this.coords = {lng:this.TEST_COORDS["london"][0], lat:this.TEST_COORDS["london"][1]};
 	this.zoom = 12;
 	this.options = {
 		center: this.coords, 

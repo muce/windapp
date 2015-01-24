@@ -151,17 +151,16 @@ App.prototype.print = function() {
 	var out = "<b>DEBUG</b>"+br;
 	out += "ITERATION: "+this.iteration+br;
 	//var type = this.default_types;
-	out += "LOCATION: "+type.name+br;
-	out += "COUNTRY: "+type.sys.country+br;
-	out += "CURRENT DATE: "+this.printDate(new Date())+br;
+	out += "LOCATION: "+type.name+", "+type.sys.country+br;
+	out += "DATE: "+this.printDate(new Date())+br;
 	var station_date = new Date(this.convertDateTime(type.dt));
-	out += "STATION DATE: "+this.printDate(station_date)+br;
+	//out += "STATION DATE: "+this.printDate(station_date)+br;
 	var latest = new Date()-station_date;
 	out += "LATEST UPDATE: "+Math.floor((latest/60000))+" minutes"+br;
-	out += "WIND SPEED: "+this.windspeed+br;
+	out += "WIND SPEED: "+this.windspeed+" MPH"+br;
 	out += "WIND DIRECTION: "+this.winddeg+br;
 	out += "CLOUD: "+type.clouds.all+"%"+br;
-	out += "TEMPERATURE: "+this.temperature+br;
+	out += "TEMPERATURE: "+this.temperature+" CELCIUS"+br;
 	
 	out += "GPS: "+this.gps.getCoords()+br;
 	

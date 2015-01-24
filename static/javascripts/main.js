@@ -19,7 +19,7 @@ const TEST_ID_LOCATION = {
 	"london": 2643743
 };
 
-const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat="+TEST_COORDS["london"][1]+"&lon="+TEST_COORDS["london"][0];
+const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat="+TEST_COORDS["margate"][1]+"&lon="+TEST_COORDS["margate"][0];
 
 const GOOGLE_MAPS_API_KEY = "AIzaSyAAIjBYnsLq4pxsRkTOAdGV3C9aNzeGJf8";
 

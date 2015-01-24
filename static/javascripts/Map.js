@@ -14,11 +14,8 @@ var Map = function() {
 
 Map.prototype.init = function(coords) {
 	//alert(coords.latitude+", "+coords.longitude);
-	//this.coords.lat = coords.latitude;
-	//this.coords.lng = coords.longitude;
-	//alert("Map.init lat:"+this.coords.lat+", lng:"+this.coords.lng);
-	//this.options.center.lat = this.coords.lat;
-	//this.options.center.lng = this.coords.lng;
+	this.coords.lat = coords.latitude;
+	this.coords.lng = coords.longitude;
 	var map = new google.maps.Map(document.getElementById('map-canvas'), this.options);
 };
 

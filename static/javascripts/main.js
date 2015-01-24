@@ -69,7 +69,7 @@ function init() {
 		"map-canvas":document.getElementById("map-canvas")
 	};
 	
-	screen_resolution = SCREEN_RESOLUTIONS["iphone3"];
+	screen_resolution = SCREEN_RESOLUTIONS["iphone5"];
 	
 	// Get canvas and 2d context
 	canvas = document.getElementById("main-canvas");

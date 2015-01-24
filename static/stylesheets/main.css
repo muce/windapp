@@ -10,8 +10,8 @@ div#map-canvas {
 	position: relative;
 	left: 0px;
 	top: 0px; 
-	width: 320px;
-	height: 480px;
+	width: 640px;
+	height: 1136px;
 	background-color: #ffffff;
 	font-size: 100%;
 	padding: 0;

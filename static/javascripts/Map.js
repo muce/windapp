@@ -15,13 +15,14 @@ var Map = function(div) {
 };
 
 Map.prototype.init = function(coords, size) {
-	this.div.style.width = size.width+"px";
-	this.div.style.height = size.height+"px";
+	this.div.style.width = window.screen.availWidth+"px"; 
+	this.div.style.height = window.screen.availHeight+"px";
 	this.coords.lat = coords.latitude;
 	this.coords.lng = coords.longitude;
-	//this.coords.lat = this.coords.lat;
-	//this.coords.lng = this.coords.lng;
+	//this.coords.lat = 10;
+	//this.coords.lng = 50;
 	
+	//alert("Map.init coords.lng="+coords.longitude+", latitude="+coords.latitude);
 	var map = new google.maps.Map(this.div, this.options);
 	
 };

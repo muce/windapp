@@ -36,6 +36,8 @@ var App = function(divs, images, canvas, display) {
 	this.temperature_change = 0;
 	this.sunrise = 0;
 	this.sunset = 0;
+	this.lng = 150; 
+	this.lat = 180; 
 	
 	this.weather_data = {};
 	this.map = null;
@@ -90,11 +92,19 @@ App.prototype.init = function() {
 
 App.prototype.initGPS = function(data, self) {
 	this.timestamp = data.timestamp;
-	self.lng = data.coords.longitude;
-	self.lat = data.coords.latitude;
+	//self.lng = data.coords.longitude;
+	//self.lat = data.coords.latitude;
+	//alert("GPS self.lng="+self.lng+", self.lat="+self.lat);
 	//alert("display lng"+self.display.lng+", lat"+self.display.lat);
 	this.map = new Map(divs["map-canvas"]);
 	this.map.init(data.coords, self.display);
+	/*
+	this.map.init({
+		"lat": 52, 
+		"lng": 1.4
+	}, 
+	self.display);
+	*/
 };
 
 App.prototype.update = function(data, iteration) {
@@ -122,12 +132,13 @@ App.prototype.updateInput = function() {
 };
 
 App.prototype.render = function() {
-	var w = this.images["dial-div"].width;
-	var h = this.images["dial-div"].height;
-	//var x = (w/4)+this.canvas.width/32;
-	//var y = (this.canvas.height/32)-(h/4);
-	var x = -this.images["dial-div"].width/2;
-	var y = -this.images["dial-div"].height/2;
+	var w = this.images["dial-div"].width/4;
+	var h = this.images["dial-div"].height/4;
+	var scr_width = window.screen.availWidth;
+	var scr_height = window.screen.availHeight;
+	
+	var x = -w/2; 
+	var y = -h/2;
 	
 	this.context.clearRect(0 ,0, this.canvas.width, this.canvas.height);
 	this.context.save();
@@ -151,6 +162,8 @@ App.prototype.print = function() {
 	var nb = "&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;";
 	var out = "<b>DEBUG: </b>";
 	out += "ITERATION: "+this.iteration+br;
+	out += "SCREEN WIDTH: "+this.display.width+br;
+	out += "SCREEN HEIGHT: "+this.display.height+br;
 	//var type = this.default_types;
 	out += "LOCATION: "+type.name+", "+type.sys.country+br;
 	out += this.gps.print()+br;

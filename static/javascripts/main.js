@@ -73,8 +73,12 @@ function init() {
 	
 	// Get canvas and 2d context
 	canvas = document.getElementById("main-canvas");
-	canvas.width = screen_resolution.width;
-	canvas.height = screen_resolution.height;
+	//canvas.width = screen_resolution.width;
+	//canvas.height = screen_resolution.height;
+	canvas.style.width = window.screen.availWidth+"px"; 
+	canvas.style.height = window.screen.availHeight+"px"; 
+	//canvas.style.height = "500px";
+	//canvas.style.width = "504px";
 	
     // Load JSON Data
 	JSONLoader = new Loader(loadedJSON); 

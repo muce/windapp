@@ -10,8 +10,8 @@ div#map-canvas {
 	position: relative;
 	left: 0px;
 	top: 0px; 
-	width: 64px;/*640px;*/
-	height: 96px;/*960px;*/
+	width: 640px;
+	height: 960px;
 	background-color: #ffffff;
 	font-size: 100%;
 	padding: 0;
@@ -23,7 +23,9 @@ canvas#main-canvas {
 	top: 0px;
 	left: 0px;
 	background-color: #000000;
-	opacity: 0.3;
+	opacity: 0.4;
+	width: 300px; 
+	height: 300px;
 }
 
 div#debug {
@@ -31,13 +33,14 @@ div#debug {
 	background-color: #000000;
 	font-size: 12px;
 	z-index: 100;
-	left: 400px;
+	left: 100px;
 	top: 0px;
 	width: 200px;
 	height: 280px;
 	color: #00ff00;
 	opacity: 0.4;
 }
+
 div#gps {
 	position: absolute;
 	background-color: #000000;
@@ -46,22 +49,25 @@ div#gps {
 	top: 0px;
 	width: auto;
 	color: #00ff00;
-	opacity: 0.2;
+	opacity: 0.5;
 	font-size: 12px;
 }
 
 div#dial-div {
 	position: absolute;
-	background-color: #333333;;
+	background-color: #ff3333;
 	z-index: 101;
-	left: 930px;
-	top: 36px;
+	left: 0px;
+	top: 0px;
 	color: white;
+	border-style: solid; 
+	border-width: 5px;
+	border-color: black;
 }
 
 div#main {
 	position: absolute;
-	top: 100px;
-	left: 586px;
+	top: 0px;
+	left: 6px;
 	z-index: 0;
 }

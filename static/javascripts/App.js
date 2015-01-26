@@ -92,8 +92,9 @@ App.prototype.initGPS = function(data, self) {
 	this.timestamp = data.timestamp;
 	self.lng = data.coords.longitude;
 	self.lat = data.coords.latitude;
-	this.map = new Map();
-	this.map.init(data.coords);
+	//alert("display lng"+self.display.lng+", lat"+self.display.lat);
+	this.map = new Map(divs["map-canvas"]);
+	this.map.init(data.coords, self.display);
 };
 
 App.prototype.update = function(data, iteration) {
@@ -148,10 +149,11 @@ App.prototype.print = function() {
 	var type = this.data;
 	var br = "<br/>";
 	var nb = "&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;";
-	var out = "<b>DEBUG</b>"+br;
+	var out = "<b>DEBUG: </b>";
 	out += "ITERATION: "+this.iteration+br;
 	//var type = this.default_types;
 	out += "LOCATION: "+type.name+", "+type.sys.country+br;
+	out += this.gps.print()+br;
 	out += "DATE: "+this.printDate(new Date())+br;
 	var station_date = new Date(this.convertDateTime(type.dt));
 	//out += "STATION DATE: "+this.printDate(station_date)+br;
@@ -162,7 +164,8 @@ App.prototype.print = function() {
 	out += "CLOUD: "+type.clouds.all+"%"+br;
 	out += "TEMPERATURE: "+this.temperature+" CELCIUS"+br;
 	
-	out += "GPS: "+this.gps.getCoords()+br;
+	//out += "GPS: LNG: "+this.gps.getCoords()["lng"]+br;
+	//out += "GPS: LAT: "+this.gps.getCoords()["lat"]+br;
 	
 	//out += "WEATHER DATA PRINT: "+this.weather_data.print()+br;
 	

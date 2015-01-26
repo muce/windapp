@@ -32,7 +32,7 @@ GPS.prototype.show = function(position) {
 	this.coords["lng"] = position.coords.longitude.toFixed(2);
 	this.coords["lat"] = position.coords.latitude.toFixed(2);
 	this.iteration++;
-	//this.print();
+	this.print();
 };
 
 GPS.prototype.getCoords = function() {
@@ -43,8 +43,8 @@ GPS.prototype.print = function() {
 	var br = "<br/>";
 	var nb = "&nbsp;"+"&nbsp;";
 	var out = "GPS COORDS"+br;
-	out += "ITERATION: "+this.iteration+br;
+	//out += "ITERATION: "+this.iteration+br;
 	out += nb+"Longitude: "+this.coords.lng+br;
 	out += nb+"Latitude: "+this.coords.lat;
-	this.div.innerHTML = out;
+	return(out);
 };

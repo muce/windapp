@@ -1,16 +1,27 @@
 var WeatherData = function() {
+	this.WIND_SPEED_MAX = 10;
+	this.WIND_SPEED_MIN = 0;
+	this.KELVIN_TO_CELCIUS = 273.15;
+	this.MPS_TO_MPH = 2.23693629;
+	this.FPS = 60;
+	this.DECIMAL_SHIFT = "000";
+	
 	this.data = {};
-	this.longitude = TEST_COORDS["london"][1];
-	this.latitude = TEST_COORDS["london"][0];
+	this.longitude = 0;
+	this.latitude = 0;
 	this.windspeed = 0;
 	this.winddeg = 0;
 	this.windgust = 0;
+	this.cloud = 0;
 	this.temperature = 0;
 	this.temperature_min = 0;
 	this.temperature_max = 0;
 	this.temperature_change = 0;
 	this.sunrise = 0;
 	this.sunset = 0;
+	this.location = "";
+	this.country = "";
+	this.station_date = "";
 };
 
 WeatherData.prototype.init = function() {
@@ -18,123 +29,82 @@ WeatherData.prototype.init = function() {
 };
 
 WeatherData.prototype.update = function(data) {
-	//alert("WeatherData.update data:"+data);
 	this.data = data;
-	//this.data.longitude = data.longitude; 
-	//this.data.latitude = data.latitude;
+	this.longitude = this.data["coord"]["lon"];
+	this.latitude = this.data["coord"]["lat"];
+	this.windspeed = (this.data["wind"]["speed"]*this.MPS_TO_MPH).toFixed(2);
+	this.winddeg = Math.round(this.data["wind"]["deg"]+180);
+	if (this.winddeg>360) this.winddeg-=360;
+	this.cloud = this.data["clouds"]["all"];
+	this.temperature = (this.data["main"]["temp"]-this.KELVIN_TO_CELCIUS).toFixed(2);
+	this.sunrise = this.convertDateTime(this.data["sys"]["sunrise"]);
+	this.sunset = this.convertDateTime(this.data["sys"]["sunset"]);
+	this.temperature_min = (this.data["main"]["temp_min"]-this.KELVIN_TO_CELCIUS).toFixed(2);
+	this.temperature_max = (this.data["main"]["temp_max"]-this.KELVIN_TO_CELCIUS).toFixed(2);
+	this.temperature_change = this.temperature_max-this.temperature_min;
+	this.location = this.data["name"];
+	this.country = this.data["sys"]["country"];
+	this.station_date = this.data["dt"];
+	
+	//this.gps.update();
+	//this.render();
+	this.print();
+	//this.weather_data.update(data);
 };
 
 WeatherData.prototype.print = function() {
-	var type = this.data;
 	var br = "<br/>";
-	var nb = "&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;";
-	var out = "<b>DEBUG</b>"+br;
-	/*
-	out += "CURRENT DATE: "+this.printDate(new Date())+br;
-	var station_date = new Date(this.convertDateTime(type.dt));
-	out += "STATION DATE: "+this.printDate(station_date)+br;
+	var nb = "&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;"+"&nbsp;";
+	var out = br;
+	out += "<b>WEATHER DATA</b>"+br;
+	
+	out += "LOCATION: "+this.location+", "+this.country+br;
+	out += "DATE: "+this.printDate(new Date())+br;
+	out += "COORDS: LON:"+this.longitude+nb+"LAT:"+this.latitude+br;
+	
+	var station_date = new Date(this.convertDateTime(this.station_date));
 	var latest = new Date()-station_date;
 	out += "LATEST UPDATE: "+Math.floor((latest/60000))+" minutes"+br;
-	out += "TEMPERATURE CHANGE: "+this.temperature_change+br;
-	*/
-	out += "LONGITUDE: "+this.latitude+br;
-	out += "LATITUDE: "+this.longitude+br;
-	/*
-	for (var i in type) {
-		switch (i) {
-			case "wind":
-				out += i.toUpperCase()+br;
-				for (var j in type[i]) {
-					switch (j) {
-						case "speed":
-							out += nb+"Speed: "+this.windspeed+" MPH"+br;
-							break;
-						case "deg":
-							out += nb+"Direction: "+this.winddeg+" DEG"+br;
-							break;
-					}
-				}
-				break;
-			case "base":
-			case "name":
-			case "cod":
-			case "id":
-				out += i.toUpperCase()+": "+type[i]+br;
-				break;
-			case "coord":
-				out += "LONGITUDE: "+this.longitude+br;
-				out += "LATITUDE: "+this.latitude+br;
-				break;
-			case "clouds":
-				out += i.toUpperCase()+br;
-				for (var j in type[i]) {
-					switch (j) {
-						case "all":
-							out += nb+"All: "+type[i][j]+br;
-							break;
-					}
-				}
-				break;
-			case "sys":
-				out += i.toUpperCase()+br;
-				for (var j in type[i]) {
-					switch (j) {
-						case "sunrise":
-							out += nb+"Sunrise: "+this.printDate(new Date(this.sunrise))+br;
-							break;
-						case "sunset":
-							out += nb+"Sunset: "+this.printDate(new Date(this.sunset))+br;
-							break;
-						case "message":
-							out += nb+"Message: "+type[i][j]+br;
-							break;
-						case "country":
-							out += nb+"Country: "+type[i][j]+br;
-							break;
-					}
-				}
-				break;
-			case "main":
-				out += i.toUpperCase()+br;
-				for (var j in type[i]) {
-					switch (j) {
-						case "temp":
-							out += nb+j+": "+this.temperature+br;
-							break;
-						case "temp_min":
-							out += nb+j+": "+this.temperature_min+br;
-							break;
-						case "temp_max":
-							out += nb+j+": "+this.temperature_max+br;
-							break;
-						default:
-							out += nb+j+": "+type[i][j]+br;	
-					}
-					
-				}
-				break;
-		}
-		
-	}
-	*/
+	out += "WIND SPEED: "+this.windspeed+" MPH"+br;
+	out += "WIND DIRECTION: "+this.winddeg+" DEGREES"+br;
+	out += "CLOUD: "+this.cloud+"%"+br;
+	out += "TEMPERATURE: "+this.temperature+" CELCIUS"+br;
+	out += "SUNRISE: "+this.sunrise+br;
+	out += "SUNSET: "+this.sunset+br;
+	out += br;
+
 	return out;
 	
 };
 
-App.prototype.printDate = function(d) {
+WeatherData.prototype.printDate = function(d) {
 	var br = "<br/>";
 	var nb = "&nbsp;"+"&nbsp;";
 	var out = "";
-	var h = d.getHours();
-	var m = d.getMinutes();
-	var s = d.getSeconds();
-	out += h+":"+m+":"+s+nb;
-	out += d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
+	var hour = d.getHours();
+	var minute = d.getMinutes();
+	var second = d.getSeconds();
+	var day = d.getDate();
+	var month = d.getMonth()+1;
+	var year = d.getFullYear();
+	if (hour.toString().length==1)
+		hour = "0"+hour.toString();
+	if (minute.toString().length==1)
+		minute = "0"+minute.toString();
+	if (second.toString().length==1)
+		second = "0"+second.toString();
+	if (day.toString().length==1)
+		day = "0"+day.toString();
+	if (month.toString().length==1)
+		month = "0"+month.toString();
+	if (year.toString().length==1)
+		year = "0"+year.toString();
+	out += hour+":"+minute+":"+second+nb;
+	out += day+"/"+month+"/"+year;
 	return out;
 };
 
-App.prototype.convertDateTime = function(dt) {
-	//alert("convertDateTime: "+dt);
+WeatherData.prototype.convertDateTime = function(dt) {
 	var rtn = new Date(Number(dt.toString()+this.DECIMAL_SHIFT)).toGMTString();
 	return rtn;
 };

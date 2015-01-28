@@ -31,14 +31,15 @@ canvas#main-canvas {
 div#debug {
 	position: absolute;
 	background-color: #000000;
-	font-size: 12px;
+	font-size: 14px;
 	z-index: 100;
-	left: 100px;
+	left: 0px;
 	top: 0px;
-	width: 200px;
-	height: 280px;
+	width: 300px;
+	height: 480px;
 	color: #00ff00;
-	opacity: 0.4;
+	opacity: 1;
+	padding: 16px;
 }
 
 div#gps {

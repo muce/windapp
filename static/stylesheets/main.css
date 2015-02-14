@@ -1,5 +1,6 @@
 html, body {
 	height: 100%;
+	width: 100%;
 	background-color: #ffffff;
 	font-size: 100%;
 	padding: 0;
@@ -10,8 +11,8 @@ div#map-canvas {
 	position: relative;
 	left: 0px;
 	top: 0px; 
-	width: 640px;
-	height: 960px;
+	width: 100%;
+	height: 100%;
 	background-color: #ffffff;
 	font-size: 100%;
 	padding: 0;
@@ -23,7 +24,7 @@ canvas#main-canvas {
 	top: 0px;
 	left: 0px;
 	background-color: #000000;
-	opacity: 0.4;
+	opacity: 0.1;
 	width: 300px; 
 	height: 300px;
 }
@@ -33,12 +34,12 @@ div#debug {
 	background-color: #000000;
 	font-size: 14px;
 	z-index: 100;
-	left: 0px;
-	top: 0px;
+	left: 50px;
+	top: 50px;
 	width: 300px;
-	height: 480px;
+	height: 280px;
 	color: #00ff00;
-	opacity: 1;
+	opacity: 0.5;
 	padding: 16px;
 }
 
@@ -52,6 +53,18 @@ div#gps {
 	color: #00ff00;
 	opacity: 0.5;
 	font-size: 12px;
+}
+
+div#weather-data {
+	position: absolute;
+	background-color: #000000;
+	color: #ffffff;
+	z-index: 85;
+	top: 0px;
+	left: 200px;
+	opacity: 0.4;
+	font-size: 10px;
+	width: auto;
 }
 
 div#dial-div {

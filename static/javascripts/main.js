@@ -9,7 +9,8 @@ const TEST_LOCATIONS = [
 const TEST_COORDS = {
 	"london": [ -0.13, 51.51 ], 
 	"margate": [ 1.38617, 51.381321 ], 
-	"saint-malo": [ -2.01667, 48.650002 ]
+	"saint-malo": [ -2.01667, 48.650002 ], 
+	"milton-keynes": [ -0.75583, 52.041721 ]
 };
 
 const TEST_ID_LOCATION = {
@@ -19,11 +20,12 @@ const TEST_ID_LOCATION = {
 	"london": 2643743
 };
 
-const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat="+TEST_COORDS["margate"][1]+"&lon="+TEST_COORDS["margate"][0];
-
+const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat="+TEST_COORDS["milton-keynes"][1]+"&lon="+TEST_COORDS["milton-keynes"][0];
+const OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather?";
+//const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139";
 const GOOGLE_MAPS_API_KEY = "AIzaSyAAIjBYnsLq4pxsRkTOAdGV3C9aNzeGJf8";
 
-const REFRESH_RATE = 5000; // milliseconds
+const REFRESH_RATE = 10000; // milliseconds
 
 const SCREEN_RESOLUTIONS = {
 	"iphone3": {"width": 320, "height":480}, 
@@ -33,20 +35,23 @@ const SCREEN_RESOLUTIONS = {
 	"iphone6+": {"width": 1242, "height":2208}, 
 };
 
+const WIND_SPEED_MAX = 10;
+const WIND_SPEED_MIN = 0;
+const KELVIN_TO_CELCIUS = 273.15;
+const MPS_TO_MPH = 2.23693629;
+const FPS = 60;
+
 var screen_resolution;
 
 var iteration = 0;
 
 var app; // Main App
 
-var map; // Google map
-
 var divs = {}; // HTML div elements
 var images = {}; // HTML img elements
 var canvas, context; // HTML canvas elements
 
 var timerID = 0;
-var JSONLoader;
 
 var click = false;
 var clickdiff = {};
@@ -59,14 +64,15 @@ function init() {
 	
 	// Get divs
 	divs = {
-		"root":document.getElementById("main"), 
-		"title":document.getElementById("title"), 
-		"text":document.getElementById("text"), 
-		"email":document.getElementById("email"),
-		"gps":document.getElementById("gps"),  
-		"debug":document.getElementById("debug"),
-		"dial-div":document.getElementById("dial-div"),  
-		"map-canvas":document.getElementById("map-canvas")
+		"root" : document.getElementById("main"), 
+		"title" : document.getElementById("title"), 
+		"text" : document.getElementById("text"), 
+		"email" : document.getElementById("email"),
+		"gps" : document.getElementById("gps"),  
+		"debug" : document.getElementById("debug"),
+		"weather-data" : document.getElementById("weather-data"), 
+		"dial-div" : document.getElementById("dial-div"),  
+		"map-canvas" : document.getElementById("map-canvas")
 	};
 	
 	screen_resolution = SCREEN_RESOLUTIONS["iphone5"];
@@ -79,9 +85,6 @@ function init() {
 	canvas.style.height = window.screen.availHeight+"px"; 
 	//canvas.style.height = "500px";
 	//canvas.style.width = "504px";
-	
-    // Load JSON Data
-	JSONLoader = new Loader(loadedJSON); 
 		
 	// init animation
 	initAnimationFrame();
@@ -142,14 +145,10 @@ function dragDebug(e) {
 };
 
 function run() {
-	//alert("main.run "+TEST_URL);
+	//alert("main.run");
 	timerID = window.setTimeout(run, REFRESH_RATE);
-	JSONLoader.load(TEST_URL, 'json');
-};
-
-function loadedJSON(json) {
-	iteration++;
-	app.update(json, iteration);
+	app.update(iteration);
+	++iteration;
 };
 
 document.addEventListener("DOMContentLoaded", function() {init();});

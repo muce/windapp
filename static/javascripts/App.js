@@ -1,4 +1,4 @@
-var App = function(divs, images, canvas, display) {
+var App = function(divs, images, canvas) {
 	this.SERVER_POLL_SPEED = 60; // Try every n seconds
 	this.WIND_SPEED_MAX = 10;
 	this.WIND_SPEED_MIN = 0;
@@ -17,8 +17,6 @@ var App = function(divs, images, canvas, display) {
 	this.context = this.canvas.getContext("2d");
 	this.data = {};
 	this.dial = null;
-	
-	this.display = display;
 		
 	this.timerID = 0;
 	this.currentFrame = 0;
@@ -32,12 +30,32 @@ var App = function(divs, images, canvas, display) {
 	this.lat = 180; 
 	
 	this.weatherdata = {};
-	this.map = {}; // Google map
-	this.mapoptions = {}; // Google map options
-	this.zoom = 16;
 	
+	// Google Map
+	this.map = {}; // Google map
+	this.mapOptions = {}; // Google map options
+	this.zoom = 16;
+	this.disableDefaultUI = true;
+	this.scaleControl = true;
+	this.panControl = true;
+	this.zoomControl = true;
+	this.zoomControlOptions = {
+		style: google.maps.ZoomControlStyle.LARGE,
+		position: google.maps.ControlPosition.LEFT_CENTER
+	};
+	this.mapTypeControl = true;
+	this.mapTypeControlOptions = {
+		style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+		position: google.maps.ControlPosition.BOTTOM_CENTER
+   	};
+   	this.streetViewControl = true;
+    this.streetViewControlOptions = {
+		position: google.maps.ControlPosition.LEFT_TOP
+    };
+   	
 	this.iteration = 0;
 	
+	// GPS location
 	this.gps = {};
 	
 };
@@ -49,15 +67,7 @@ App.prototype.init = function() {
 	this.gps.init(function(position) {
 		self.loadedGPS(position);
 	});
-	/*
-	// Load Images
-	var image = document.createElement("img");
-	image.src = this.DIAL_IMAGE_URL;
-	var self = this;
-    image.onload = function() {
-        self.initDial(image);
-    };
-    */
+    
 };
 
 App.prototype.loadedGPS = function(position) {
@@ -99,42 +109,76 @@ App.prototype.setData = function(data) {
 	this.weatherdata.longitude = Number(this.position.coords.longitude.toFixed(3));
 	this.weatherdata.latitude = Number(this.position.coords.latitude.toFixed(3));
 	//this.weatherdata.position = {"longitude":this.position.coords.longitude.toFixed(2), "latitude":this.position.coords.latitude.toFixed(2)};
-	this.weatherdata.windspeed = (data.wind.speed*MPS_TO_MPH).toFixed(2)+" MPH";
-	this.weatherdata.windangle = ((data.wind.deg+180) % 360).toFixed(2)+" Deg";
+	this.weatherdata.windspeed = (data.wind.speed*MPS_TO_MPH).toFixed(2);//+" MPH";
+	this.weatherdata.windangle = parseInt(((data.wind.deg+180) % 360));//+" Deg";
 	this.weatherdata.cloud = data.clouds.all+"%";
 	//this.weatherdata.weather = {"main":data.weather.main.toString(), "description":data.weather.description.toString()};
-	this.weatherdata.temperature = (data.main.temp-KELVIN_TO_CELCIUS).toFixed(2)+" C";
+	this.weatherdata.temperature = (data.main.temp-KELVIN_TO_CELCIUS).toFixed(2);//+" C";
 	this.weatherdata.sunrise = this.formatDateTime(data.sys.sunrise);
 	this.weatherdata.sunset = this.formatDateTime(data.sys.sunset);
 	
 	//alert(JSON.stringify(this.weatherdata, null, "\t"));
 	
-	this.createMap();
-	//this.temperature_change = this.temperature_max-this.temperature_min;
-	//this.station_date = this.data["dt"];
-	//slert("loadedWeatherData app"+this.app);
-	//this.callback(this.weatherdata);
+	this.initMap();
 	
-	//alert("WeatherData print callback "+this.callback);
-	//this.getTimeDifference(this.sunrise, this.sunset);
+	// Load Images
+	this.images["dial"] = document.createElement("img");
+	this.images["dial"].src = this.DIAL_IMAGE_URL;
+	var self = this;
+    this.images["dial"].onload = function() {
+        self.initDial();
+    };
 	
 };
 
-App.prototype.createMap = function() {
+App.prototype.initMap = function() {
 	//alert(this.position.coords.latitude.toFixed(3)+", "+this.position.coords.longitude.toFixed(3));
-	alert(this.weatherdata.latitude+", "+this.weatherdata.longitude);
 	this.divs["map-canvas"].style.width = window.screen.availWidth+"px"; 
 	this.divs["map-canvas"].style.height = window.screen.availHeight+"px";
 	
-	this.mapoptions = {
-		center: {lat: this.weatherdata.latitude, lng: this.weatherdata.longitude},
-		zoom: this.zoom
+/*
+	this.zoom = 8;
+	this.disableDefaultUI = true;
+	this.scaleControl = true;
+	this.panControl = true;
+	this.zoomControl = true;
+	this.zoomControlOptions = {
+		style: google.maps.ZoomControlStyle.LARGE,
+		position: google.maps.ControlPosition.LEFT_CENTER
+	};
+	this.mapTypeControl = true;
+	this.mapTypeControlOptions = {
+		style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+		position: google.maps.ControlPosition.BOTTOM_CENTER
+   	};
+   	this.streetViewControl = true;
+    this.streetViewControlOptions = {
+		position: google.maps.ControlPosition.LEFT_TOP
     };
-    this.map = new google.maps.Map(this.divs["map-canvas"], this.mapoptions);
+ */
+	
+	this.mapOptions = {
+		center: {lat: this.weatherdata.latitude, lng: this.weatherdata.longitude},
+		zoom: this.zoom, 
+		disableDefaultUI: this.disableDefaultUI
+    };
+    this.map = new google.maps.Map(this.divs["map-canvas"], this.mapOptions);
 };
 
-App.prototype.initDial = function(img) {
-	this.images["dial-div"] = img;	
+App.prototype.initDial = function() {
+	
+	var w = this.images["dial"].width/4;
+	var h = this.images["dial"].height/4;
+	var x = -w/2;
+	var y = -h/2;
+	
+	this.context.clearRect(0 ,0, this.canvas.width, this.canvas.height);
+	this.context.save();
+    this.context.translate(this.canvas.width/2, this.canvas.height/2);
+    this.context.rotate(this.weatherdata.windangle*Math.PI/180);
+    this.context.drawImage(this.images["dial"], x, y, w, h);
+	this.context.restore();
+	
 	//var dia = new Image();
 	//dia.src = this.DIAL_IMAGE_URL;
 	//image.width = 128;
@@ -167,8 +211,8 @@ App.prototype.update = function(iteration) {
 	if (this.winddeg>360) this.winddeg-=360;
 	this.temperature_change = this.temperature_max-this.temperature_min;
 	this.gps.update();
-	this.render();
 	*/
+	//this.render();
 	this.print();
 	//this.weather_data.update(data);
 };
@@ -178,8 +222,8 @@ App.prototype.updateInput = function() {
 };
 
 App.prototype.render = function() {
-	var w = this.images["dial-div"].width/4;
-	var h = this.images["dial-div"].height/4;
+	var w = this.images["dial"].width/4;
+	var h = this.images["dial"].height/4;
 	var scr_width = window.screen.availWidth;
 	var scr_height = window.screen.availHeight;
 	
@@ -189,8 +233,8 @@ App.prototype.render = function() {
 	this.context.clearRect(0 ,0, this.canvas.width, this.canvas.height);
 	this.context.save();
     this.context.translate(this.canvas.width/2, this.canvas.height/2);
-    this.context.rotate(this.winddeg*Math.PI/180);
-    this.context.drawImage(this.images["dial-div"], x, y, w, h);
+    //this.context.rotate(this.winddeg*Math.PI/180);
+    this.context.drawImage(this.images["dial"], x, y, w, h);
 	this.context.restore();
 };
 
@@ -199,7 +243,20 @@ App.prototype.tap = function(e) {
 };
 
 App.prototype.addEventListeners = function() {
+	window.addEventListener("deviceorientation", this.handleOrientation, true);
+	window.addEventListener("devicemotion", this.handleMotion, true);
+};
 
+App.prototype.handleOrientation = function(e) {
+  var absolute = e.absolute;
+  var alpha    = e.alpha;
+  var beta     = e.beta;
+  var gamma    = e.gamma;
+  // Do stuff with the new orientation data
+};
+
+App.prototype.handleMotion = function(e) {
+	
 };
 
 App.prototype.formatDateTime = function(timestamp) {
@@ -224,7 +281,7 @@ App.prototype.print = function() {
 	var nb = "&nbsp;";
 	var out = "<b>DEBUG: </b>";
 	out += "ITERATION: "+this.iteration+br;
-	out += "SCREEN RES: "+this.divs["map-canvas"].style.width+" : "+this.divs["map-canvas"].style.height+br;
+	out += "SCREEN RES: "+window.screen.availWidth+" x "+window.screen.availHeight+br;
 	out += JSON.stringify(this.weatherdata, null, br);
 	//out += this.gps.print()+br;
 	//out += this.weather_data.print();

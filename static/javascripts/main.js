@@ -1,11 +1,3 @@
-const TEST_LOCATIONS = [
-	"London", "Sydney", "Perth", 
-	"Bristol", "Margate", "Dover", 
-	"London", "Harrow", "Edinburgh", 
-	"Canterbury", "Glasgow", "Dublin", 
-	"Plymouth", "Doha", "New York"
-];
-
 const TEST_COORDS = {
 	"london": [ -0.13, 51.51 ], 
 	"margate": [ 1.38617, 51.381321 ], 
@@ -13,16 +5,8 @@ const TEST_COORDS = {
 	"milton-keynes": [ -0.75583, 52.041721 ]
 };
 
-const TEST_ID_LOCATION = {
-	"margate": 2643044, 
-	"sydney": 2147714, 
-	"saint-malo": 2978640, 
-	"london": 2643743
-};
-
 const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat="+TEST_COORDS["milton-keynes"][1]+"&lon="+TEST_COORDS["milton-keynes"][0];
 const OPEN_WEATHER_MAP_URL = "http://api.openweathermap.org/data/2.5/weather?";
-//const TEST_URL = "http://api.openweathermap.org/data/2.5/weather?lat=35&lon=139";
 const GOOGLE_MAPS_API_KEY = "AIzaSyAAIjBYnsLq4pxsRkTOAdGV3C9aNzeGJf8";
 
 const REFRESH_RATE = 10000; // milliseconds
@@ -60,15 +44,12 @@ var mousepos = {"x":0, "y":0};
 		
 function init() {
 	
-	//alert(TEST_URL);
-	
 	// Get divs
 	divs = {
 		"root" : document.getElementById("main"), 
 		"title" : document.getElementById("title"), 
 		"text" : document.getElementById("text"), 
 		"email" : document.getElementById("email"),
-		"gps" : document.getElementById("gps"),  
 		"debug" : document.getElementById("debug"),
 		"weather-data" : document.getElementById("weather-data"), 
 		"dial-div" : document.getElementById("dial-div"),  
@@ -82,7 +63,13 @@ function init() {
 	//canvas.width = screen_resolution.width;
 	//canvas.height = screen_resolution.height;
 	canvas.style.width = window.screen.availWidth+"px"; 
-	canvas.style.height = window.screen.availHeight+"px"; 
+	canvas.style.height = window.screen.availHeight+"px";
+	//canvas.style.left = window.screen.availWidth+"px";
+	//canvas.style.top = window.screen.availHeight+"px";
+	canvas.style.left = 0+"px";
+	canvas.style.top = 0+"px";   
+	
+	alert(window.screen.availTop+", "+window.screen.top);
 	//canvas.style.height = "500px";
 	//canvas.style.width = "504px";
 		
@@ -93,7 +80,7 @@ function init() {
 	initDivs();
 	
 	// init app
-	app = new App(divs, images, canvas, screen_resolution);
+	app = new App(divs, images, canvas);
 	app.init();
 	run();
 	

@@ -69,7 +69,7 @@ function init() {
 	canvas.style.left = 0+"px";
 	canvas.style.top = 0+"px";   
 	
-	alert(window.screen.availTop+", "+window.screen.top);
+	//alert(window.screen.availTop+", "+window.screen.top);
 	//canvas.style.height = "500px";
 	//canvas.style.width = "504px";
 		

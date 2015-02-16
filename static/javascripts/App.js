@@ -58,6 +58,19 @@ var App = function(divs, images, canvas) {
 	// GPS location
 	this.gps = {};
 	
+	// Orientation and Motion
+	this.orientation = {};
+	this.motion = {};
+	
+	this.orientation.absolute = true; 
+	this.orientation.alpha = 1.1;
+	this.orientation.beta = 2.2; 
+	this.orientation.gamma = 3.3;
+	
+	this.motion.x = 1.1;
+	this.motion.y = 2.2;
+	this.motion.x = 3.3;
+	
 };
 
 App.prototype.init = function() {
@@ -118,6 +131,8 @@ App.prototype.setData = function(data) {
 	this.weatherdata.sunset = this.formatDateTime(data.sys.sunset);
 	
 	//alert(JSON.stringify(this.weatherdata, null, "\t"));
+	
+	this.print();
 	
 	this.initMap();
 	
@@ -243,20 +258,32 @@ App.prototype.tap = function(e) {
 };
 
 App.prototype.addEventListeners = function() {
-	window.addEventListener("deviceorientation", this.handleOrientation, true);
-	window.addEventListener("devicemotion", this.handleMotion, true);
+	alert("App.addEventListeners");
+	if (window.DeviceOrientationEvent) {
+		alert("DeviceOrientation");
+		window.addEventListener("deviceorientation", this.handleOrientationEvent, true);
+	};
+	window.addEventListener("devicemotion", this.handleMotionEvent, true);
 };
 
-App.prototype.handleOrientation = function(e) {
-  var absolute = e.absolute;
-  var alpha    = e.alpha;
-  var beta     = e.beta;
-  var gamma    = e.gamma;
-  // Do stuff with the new orientation data
+App.prototype.handleOrientationEvent = function(e) {
+  	var absolute = e.absolute;
+	var alpha    = e.alpha;
+	var beta     = e.beta;
+	var gamma    = e.gamma;
+	this.orientation.absolute = absolute; 
+	this.orientation.alpha = alpha;
+	this.orientation.beta = beta; 
+	this.orientation.gamma = gamma;
 };
 
-App.prototype.handleMotion = function(e) {
-	
+App.prototype.handleMotionEvent = function(e) {
+    var x = e.accelerationIncludingGravity.x;
+    var y = e.accelerationIncludingGravity.y;
+    var z = e.accelerationIncludingGravity.z;
+	this.motion.x = x;
+	this.motion.y = y;
+	this.motion.x = z;
 };
 
 App.prototype.formatDateTime = function(timestamp) {
@@ -282,7 +309,9 @@ App.prototype.print = function() {
 	var out = "<b>DEBUG: </b>";
 	out += "ITERATION: "+this.iteration+br;
 	out += "SCREEN RES: "+window.screen.availWidth+" x "+window.screen.availHeight+br;
-	out += JSON.stringify(this.weatherdata, null, br);
+	out += JSON.stringify(this.weatherdata, null, br)+br;
+	out += JSON.stringify(this.orientation, null, br)+br;
+	out += JSON.stringify(this.motion, null, br)+br;
 	//out += this.gps.print()+br;
 	//out += this.weather_data.print();
 

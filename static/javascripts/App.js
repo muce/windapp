@@ -258,12 +258,19 @@ App.prototype.tap = function(e) {
 };
 
 App.prototype.addEventListeners = function() {
-	alert("App.addEventListeners");
+	// Movement, Orientation
 	if (window.DeviceOrientationEvent) {
 		alert("DeviceOrientation");
 		window.addEventListener("deviceorientation", this.handleOrientationEvent, true);
 	};
 	window.addEventListener("devicemotion", this.handleMotionEvent, true);
+	
+	// Touch
+	this.canvas.addEventListener("touchstart", this.handleTouchStartEvent, false);
+	this.canvas.addEventListener("touchend", this.handleTouchEndEvent, false);
+	this.canvas.addEventListener("touchcancel", this.handleTouchCancelEvent, false);
+	this.canvas.addEventListener("touchleave", this.handleTouchLeaveEvent, false);
+	this.canvas.addEventListener("touchmove", this.handleTouchMoveEvent, false);
 };
 
 App.prototype.handleOrientationEvent = function(e) {
@@ -285,6 +292,33 @@ App.prototype.handleMotionEvent = function(e) {
 	this.motion.y = y;
 	this.motion.x = z;
 };
+
+App.prototype.handleTouchStartEvent = function(e) {
+	alert("handleTouchStartEvent");
+};
+
+App.prototype.handleTouchEndEvent = function(e) {
+	alert("handleTouchEndEvent");
+};
+
+App.prototype.handleTouchCancelEvent = function(e) {
+	alert("handleTouchCancelEvent");
+};
+
+App.prototype.handleTouchLeaveEvent = function(e) {
+	alert("handleTouchLeaveEvent");
+};
+
+App.prototype.handleTouchMoveEvent = function(e) {
+	alert("handleTouchMoveEvent");
+};
+
+
+
+
+
+
+
 
 App.prototype.formatDateTime = function(timestamp) {
 	// create a new javascript Date object based on the timestamp

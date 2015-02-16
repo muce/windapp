@@ -26,8 +26,8 @@ canvas#main-canvas {
 	z-index: 99;
 	top: 0px;
 	left: 0px;
-	background-color: #000000;
-	opacity: 0.5; 
+	background-color: #ff0000;
+	opacity: 0.3; 
 }
 
 div#debug {

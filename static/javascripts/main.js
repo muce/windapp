@@ -62,8 +62,8 @@ function init() {
 	canvas = document.getElementById("main-canvas");
 	//canvas.width = screen_resolution.width;
 	//canvas.height = screen_resolution.height;
-	canvas.style.width = window.screen.availWidth+"px"; 
-	canvas.style.height = window.screen.availHeight+"px";
+	canvas.style.width = window.screen.availWidth/2+"px"; 
+	canvas.style.height = window.screen.availHeight/2+"px";
 	//canvas.style.left = window.screen.availWidth+"px";
 	//canvas.style.top = window.screen.availHeight+"px";
 	canvas.style.left = 0+"px";
